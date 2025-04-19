@@ -1,4 +1,4 @@
-use gtk4::{prelude::*, Box, Button, Label, Orientation, Stack, CssProvider};
+use gtk4::{prelude::*, Builder, Box, Button, Label, Orientation, Stack, CssProvider};
 use gtk4::gdk::Display;
 use std::rc::Rc;
 
@@ -15,23 +15,25 @@ fn load_css() {
 }
 
 pub fn build_left_bar(stack: Rc<Stack>) -> Box {
-
     load_css();
 
-    let main_container = Box::new(Orientation::Vertical, 0);
+    let ui_src = include_str!("../ui/left_bar_home.ui");
+    let builder = Builder::from_string(ui_src);
 
-    let label = Label::new(Some("Playlist"));
-    label.set_margin_bottom(10);
-    let button = Button::with_label("Settings");
+    let container: Box = builder
+        .object("left_bar_container")
+        .expect("Non trovato: left_bar_container");
+
+    let button: Button = builder
+        .object("left_bar_button")
+        .expect("Non trovato: left_bar_button");
 
     let stack_clone = Rc::clone(&stack);
     button.connect_clicked(move |_| {
         stack_clone.set_visible_child_name("settings");
     });
 
-    main_container.append(&label);
-    main_container.append(&button);
-    main_container.add_css_class("container");
+    container.add_css_class("container");
 
-    main_container
+    container
 }

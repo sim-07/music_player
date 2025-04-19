@@ -1,13 +1,14 @@
-use gtk4::{prelude::*, Box, Button, Label, Orientation, Stack, CssProvider};
+use gtk4::{prelude::*, Box, Builder, Button, CssProvider, Label, Orientation, Stack};
 use std::rc::Rc;
 
 pub fn build_middle_section() -> Box {
 
-    let main_container = Box::new(Orientation::Vertical, 0);
+    let ui_src = include_str!("../ui/middle_section.ui");
+    let builder = Builder::from_string(ui_src);
 
-    let label = Label::new(Some("Middle section"));
+    let container: Box = builder
+        .object("middle_section_container")
+        .expect("Non trovato: middle_section_container");
 
-    main_container.append(&label);
-
-    main_container
+    container
 }

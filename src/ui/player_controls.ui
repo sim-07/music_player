@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkBox" id="player_controls_container">
+    <property name="orientation">horizontal</property>
+    <property name="spacing">10</property>
+
+    <child>
+      <object class="GtkButton" id="skip_previous_button">
+        <property name="label">Skip Previous</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkButton" id="play_button">
+        <property name="label">Play</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkButton" id="pause_button">
+        <property name="label">Pause</property>
+      </object>
+    </child>
+
+    <child>
+      <object class="GtkButton" id="skip_next_button">
+        <property name="label">Skip Next</property>
+      </object>
+    </child>
+
+  </object>
+</interface>

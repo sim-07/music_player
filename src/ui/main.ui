@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <object class="GtkApplicationWindow" id="main_window">
+    <property name="default-width">1024</property>
+    <property name="default-height">768</property>
+    <property name="title">Music Player</property>
+    <child>
+      <object class="GtkStack" id="main_stack"/>
+    </child>
+  </object>
+</interface>
