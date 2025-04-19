@@ -6,19 +6,33 @@
     <child>
       <object class="GtkBox">
         <property name="orientation">horizontal</property>
-        <property name="spacing">130</property>
+        <property name="spacing">110</property>
+
         <child>
           <object class="GtkLabel" id="left_bar_label">
             <property name="label">Playlist</property>
           </object>
         </child>
+
         <child>
-          <object class="GtkButton" id="left_bar_button">
-            <property name="label">Settings</property>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="spacing">5</property>
+            <child>
+              <object class="GtkButton" id="create_pl_button">
+                <property name="label">Create playlist</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="settings_button">
+                <property name="label">Settings</property>
+              </object>
+            </child>
+
           </object>
         </child>
       </object>
     </child>
-
   </object>
 </interface>

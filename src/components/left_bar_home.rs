@@ -1,5 +1,5 @@
-use gtk4::{prelude::*, Builder, Box, Button, Label, Orientation, Stack, CssProvider};
 use gtk4::gdk::Display;
+use gtk4::{prelude::*, Box, Builder, Button, CssProvider, Label, Orientation, Picture, Stack};
 use std::rc::Rc;
 
 fn load_css() {
@@ -24,13 +24,31 @@ pub fn build_left_bar(stack: Rc<Stack>) -> Box {
         .object("left_bar_container")
         .expect("Non trovato: left_bar_container");
 
-    let button: Button = builder
-        .object("left_bar_button")
-        .expect("Non trovato: left_bar_button");
+    let settings_button: Button = builder
+        .object("settings_button")
+        .expect("Non trovato: settings_button");
+
+    let create_pl_button: Button = builder
+        .object("create_pl_button")
+        .expect("Non trovato: create_pl_button");
+
+    let settings_icon: Picture = Picture::for_filename("assets/icons/settings.svg");
+    let settings_box = Box::new(gtk4::Orientation::Horizontal, 5);
+    settings_box.append(&settings_icon);
+    settings_button.set_child(Some(&settings_box));
+
+    let create_pl_icon: Picture = Picture::for_filename("assets/icons/add.svg");
+    let create_pl_box = Box::new(gtk4::Orientation::Horizontal, 5);
+    create_pl_box.append(&create_pl_icon);
+    create_pl_button.set_child(Some(&create_pl_box));
 
     let stack_clone = Rc::clone(&stack);
-    button.connect_clicked(move |_| {
+    settings_button.connect_clicked(move |_| {
         stack_clone.set_visible_child_name("settings");
+    });
+
+    create_pl_button.connect_clicked(move |_| {
+        println!("Creazione playlist...");
     });
 
     container.add_css_class("container");

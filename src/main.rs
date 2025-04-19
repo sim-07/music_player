@@ -5,6 +5,7 @@ use std::cell::RefCell;
 
 mod pages;
 mod components;
+mod scripts;
 
 fn main() {
     let app = Application::builder()
