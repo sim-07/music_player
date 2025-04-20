@@ -1,6 +1,15 @@
+use glib::clone;
 use gtk4::gdk::Display;
-use gtk4::{prelude::*, Box, Builder, Button, CssProvider, Label, Orientation, Picture, Stack};
+use gtk4::subclass::window;
+use gtk4::{
+    prelude::*, ApplicationWindow, Box, Builder, Button, CssProvider, Dialog, Entry, Label,
+    Orientation, Picture, Stack,
+};
+use lazy_static::lazy_static;
 use std::rc::Rc;
+use std::sync::Mutex;
+
+use crate::scripts::create_playlist::create_playlist;
 
 fn load_css() {
     let provider = CssProvider::new();
@@ -14,7 +23,53 @@ fn load_css() {
     );
 }
 
-pub fn build_left_bar(stack: Rc<Stack>) -> Box {
+// fn set_playlist_name(name: &str) {
+//     let mut guard = PLAYLIST_NAME.lock().unwrap();
+//     *guard = name.to_owned();
+// }
+
+// // fn get_playlist_name() -> String {
+// //     PLAYLIST_NAME.lock().unwrap().clone()
+// // }
+
+lazy_static! {
+    static ref PLAYLIST_NAME: Mutex<String> = Mutex::new(String::new());
+}
+
+fn show_input_dialog(parent: &ApplicationWindow) {
+    let dialog = Dialog::builder()
+        .transient_for(parent)
+        .modal(true)
+        .title("Create playlist")
+        .build();
+
+    let content_area = dialog.content_area();
+    let label = Label::new(Some("Playlist name:"));
+    let entry = Entry::new();
+
+    content_area.append(&label);
+    content_area.append(&entry);
+
+    dialog.add_button("Annulla", gtk4::ResponseType::Cancel);
+    dialog.add_button("OK", gtk4::ResponseType::Ok);
+
+    let entry_weak = entry.downgrade();
+    dialog.connect_response(move |dialog, response| {
+        if response == gtk4::ResponseType::Ok {
+            if let Some(entry) = entry_weak.upgrade() {
+                let text = entry.text().to_string();
+                let mut guard = PLAYLIST_NAME.lock().unwrap();
+                *guard = text.to_owned();
+                println!("Hai inserito: {}", text);
+            }
+        }
+        dialog.close();
+    });
+
+    dialog.show();
+}
+
+pub fn build_left_bar(stack: Rc<Stack>, window: &ApplicationWindow) -> Box {
     load_css();
 
     let ui_src = include_str!("../ui/left_bar_home.ui");
@@ -47,8 +102,11 @@ pub fn build_left_bar(stack: Rc<Stack>) -> Box {
         stack_clone.set_visible_child_name("settings");
     });
 
+    let window_weak = window.downgrade();
     create_pl_button.connect_clicked(move |_| {
-        println!("Creazione playlist...");
+        if let Some(window) = window_weak.upgrade() {
+            show_input_dialog(&window);
+        }
     });
 
     container.add_css_class("container");

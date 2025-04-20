@@ -1,7 +1,6 @@
 use glib::clone;
 use gtk4::{prelude::*, Builder, Box, Button, CssProvider, Picture};
 use gtk4::gdk::Display;
-use std::rc::Rc;
 
 pub struct PlayerControls {
     pub container: Box,

@@ -1,6 +1,4 @@
-use gtk4::{prelude::*, Box, Builder, Button, CssProvider, Label, Orientation, Stack};
-use std::rc::Rc;
-
+use gtk4::{prelude::*, Box, Builder};
 pub fn build_middle_section() -> Box {
 
     let ui_src = include_str!("../ui/middle_section.ui");

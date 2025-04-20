@@ -1,7 +1,6 @@
 use gtk4::{prelude::*, Builder};
-use gtk4::{Application, ApplicationWindow, Stack, Label, Button, Box, Orientation};
+use gtk4::{Application, ApplicationWindow};
 use std::rc::Rc;
-use std::cell::RefCell;
 
 mod pages;
 mod components;
@@ -27,7 +26,7 @@ fn main() {
     
             let stack_rc = Rc::new(stack);
             
-            let home_page = pages::home::build(Rc::clone(&stack_rc));
+            let home_page = pages::home::build(Rc::clone(&stack_rc), &window);
             let settings_page = pages::settings::build(Rc::clone(&stack_rc));
     
             stack_rc.add_named(&home_page, Some("home"));
